@@ -2,6 +2,8 @@
 
 var productNames = [];
 
+var allProducts = [];
+
 var imgPaths = [
   'img/bag.jpg',
   'img/banana.jpg',
@@ -26,8 +28,6 @@ var imgPaths = [
   'img/wine-glass.jpg'
 ];
 
-var allProducts = [];
-
 function extractNames() {
   for (var i = 0; i < imgPaths.length; i++) {
     productNames.push(imgPaths[i].slice(4, -4));
@@ -35,6 +35,10 @@ function extractNames() {
 }
 
 extractNames();
+
+function randomImageNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+} //will use to pick images to select for display
 
 var Product = function(productName, productPath) {
   this.name = productName;
