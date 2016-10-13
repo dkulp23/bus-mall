@@ -1,0 +1,13 @@
+main {
+  overflow: auto;
+  width: 100%;
+}
+
+.productImage {
+  height: 300px;
+  width: 300px;
+  background-color: blue;
+  float: left;
+  box-shadow: 2px 2px 4px 4px green;
+  margin: 30px;
+}
