@@ -55,3 +55,15 @@ function createTheProductInstances() {
 }
 
 createTheProductInstances();
+
+var clickTotals = {
+  imgOne: function(prod, elementID) {
+    var divEl = document.getElementById(elementID);
+    var imgEl = document.createElement('img');
+    imgEl.setAttribute('id', prod.name);
+    imgEl.setAttribute('src', prod.filePath);
+    divEl.appendChild(imgEl);
+  }
+};
+
+clickTotals.imgOne(allProducts[0], 'leftImage');
