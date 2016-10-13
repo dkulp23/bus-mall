@@ -1,5 +1,7 @@
 'use strict';
 
+var productNames = [];
+
 var imgPaths = [
   'img/bag.jpg',
   'img/banana.jpg',
@@ -24,8 +26,6 @@ var imgPaths = [
   'img/wine-glass.jpg'
 ];
 
-var productNames = [];
-
 var allProducts = [];
 
 function extractNames() {
@@ -36,10 +36,18 @@ function extractNames() {
 
 extractNames();
 
-var Product = function() {
-  this.name = null;
-  this.filePath = thing;
+var Product = function(productName, productPath) {
+  this.name = productName;
+  this.filePath = productPath;
   this.numTimesShown = 0;
   this.numTimesClicked = 0;
   allProducts.push(this);
+};
+
+function createTheProductInstances() {
+  for (var i = 0; i < imgPaths.length; i++) {
+    new Product(productNames[i], imgPaths[i]);
+  }
 }
+
+createTheProductInstances();
