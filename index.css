@@ -1,6 +1,26 @@
+body {
+  background-color: red;
+}
+
+header {
+  background-color: violet;
+  width: 600px;
+  margin: 0 auto;
+}
+
 main {
   overflow: auto;
   width: 100%;
+}
+
+footer {
+  background-color: orange;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.headerText {
+  text-align: center;
 }
 
 .productImage {
@@ -10,4 +30,8 @@ main {
   float: left;
   box-shadow: 2px 2px 4px 4px green;
   margin: 30px;
+}
+
+.footerText {
+  text-align: center;
 }
