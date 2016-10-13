@@ -13,6 +13,10 @@ main {
   width: 100%;
 }
 
+div img {
+  margin: auto;
+}
+
 footer {
   background-color: orange;
   width: 600px;

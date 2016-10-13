@@ -19,11 +19,11 @@ var imgPaths = [
   'img/pet-sweep.jpg',
   'img/scissors.jpg',
   'img/shark.jpg',
-  'img/sweep.jpg',
+  'img/sweep.png',
   'img/tauntaun.jpg',
   'img/unicorn.jpg',
   'img/breakfast.jpg',
-  'img/usb.jpg',
+  'img/usb.gif',
   'img/water-can.jpg',
   'img/wine-glass.jpg'
 ];
@@ -35,10 +35,6 @@ function extractNames() {
 }
 
 extractNames();
-
-function randomImageNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-} //will use to pick images to select for display
 
 var Product = function(productName, productPath) {
   this.name = productName;
@@ -56,14 +52,24 @@ function createTheProductInstances() {
 
 createTheProductInstances();
 
-var clickTotals = {
-  imgOne: function(prod, elementID) {
-    var divEl = document.getElementById(elementID);
-    var imgEl = document.createElement('img');
-    imgEl.setAttribute('id', prod.name);
-    imgEl.setAttribute('src', prod.filePath);
-    divEl.appendChild(imgEl);
-  }
-};
+function randomImageNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-clickTotals.imgOne(allProducts[0], 'leftImage');
+function imageArgument() {
+  return allProducts[randomImageNumber(0, imgPaths.length)];
+}
+
+function renderImage(prod, elementID) {
+  var divEl = document.getElementById(elementID);
+  var imgEl = document.createElement('img');
+  imgEl.setAttribute('id', prod.name);
+  imgEl.setAttribute('src', prod.filePath);
+  divEl.appendChild(imgEl);
+}
+
+var clickTotals = {
+  left: renderImage(imageArgument(), 'leftImage'),
+  middle: renderImage(imageArgument(), 'middleImage'),
+  right: renderImage(imageArgument(), 'rightImage')
+};
