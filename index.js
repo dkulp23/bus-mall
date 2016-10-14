@@ -4,6 +4,8 @@ var productNames = [];
 
 var allProducts = [];
 
+var randomNumbers = [];
+
 var imgPaths = [
   'img/bag.jpg',
   'img/banana.jpg',
@@ -53,23 +55,31 @@ function createTheProductInstances() {
 createTheProductInstances();
 
 function randomImageNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  for (var i = 0; i < 3; i++) {
+    var number = Math.floor(Math.random() * (max - min)) + min;
+    while(randomNumbers.indexOf(number) > -1) {
+      var number = Math.floor(Math.random() * (max - min)) + min;
+    }
+    randomNumbers.push(number);
+  }
 }
 
-function imageArgument() {
-  return allProducts[randomImageNumber(0, imgPaths.length)];
-}
+randomImageNumber(0, imgPaths.length);
+// function imageArgument() {
+//   return allProducts[randomImageNumber(0, imgPaths.length)];
+// }
 
 function renderImage(prod, elementID) {
   var divEl = document.getElementById(elementID);
   var imgEl = document.createElement('img');
   imgEl.setAttribute('id', prod.name);
+  imgEl.setAttribute('class', 'randomImage')
   imgEl.setAttribute('src', prod.filePath);
   divEl.appendChild(imgEl);
 }
 
 var clickTotals = {
-  left: renderImage(imageArgument(), 'leftImage'),
-  middle: renderImage(imageArgument(), 'middleImage'),
-  right: renderImage(imageArgument(), 'rightImage')
+  left: renderImage(allProducts[randomNumbers[0]], 'leftImage'),
+  middle: renderImage(allProducts[randomNumbers[1]], 'middleImage'),
+  right: renderImage(allProducts[randomNumbers[2]], 'rightImage')
 };
