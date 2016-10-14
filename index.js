@@ -24,7 +24,6 @@ var imgPaths = [
   'img/sweep.png',
   'img/tauntaun.jpg',
   'img/unicorn.jpg',
-  'img/breakfast.jpg',
   'img/usb.gif',
   'img/water-can.jpg',
   'img/wine-glass.jpg'
@@ -54,17 +53,17 @@ function createTheProductInstances() {
 
 createTheProductInstances();
 
-function randomImageNumber(min, max) {
+function randomImageNumber(max) {
   for (var i = 0; i < 3; i++) {
-    var number = Math.floor(Math.random() * (max - min)) + min;
+    var number = Math.floor(Math.random() * max);
     while(randomNumbers.indexOf(number) > -1) {
-      var number = Math.floor(Math.random() * (max - min)) + min;
+      var number = Math.floor(Math.random() * max);
     }
     randomNumbers.push(number);
   }
 }
 
-randomImageNumber(0, imgPaths.length);
+randomImageNumber(imgPaths.length);
 // function imageArgument() {
 //   return allProducts[randomImageNumber(0, imgPaths.length)];
 // }
@@ -81,5 +80,18 @@ function renderImage(prod, elementID) {
 var clickTotals = {
   left: renderImage(allProducts[randomNumbers[0]], 'leftImage'),
   middle: renderImage(allProducts[randomNumbers[1]], 'middleImage'),
-  right: renderImage(allProducts[randomNumbers[2]], 'rightImage')
+  right: renderImage(allProducts[randomNumbers[2]], 'rightImage'),
+  imgEls: [
+    document.getElementById('leftImage'),
+    document.getElementById('middleImage'),
+    document.getElementById('rightImage')
+  ],
+  userVote: function() {
+    this.numTimesClicked += 1;
+  },
+  listen: imgEls[0].addEventListener('click', userVote)
 };
+
+function userVote(target) {
+  target.numTimesClicked += 1;
+}
