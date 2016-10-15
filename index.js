@@ -139,5 +139,14 @@ countEventListeners(); //calls function above
 
 function resultsButton() {
   var divEl = document.getElementById('getResultsButton');
-  divEl.innerHTML = '<div>See the results!</div>';
+  divEl.innerHTML = '<button name="resultsButton">See the results!</button>';
 }
+
+function resultsButtonClickEvent(event) {
+  var divEl = document.getElementById('trackerList');
+  var listTitle = document.createElement('p');
+  listTitle.textContent = 'Here is the list of all of the product images and a count of which ones you click:';
+  divEl.appendChild(listTitle);
+}
+
+userClick('getResultsButton').addEventListener('click', resultsButtonClickEvent);

@@ -40,17 +40,6 @@ footer {
   margin-left: -150px;*/
 }
 
-.button {
-  background-color: white;
-  margin-left: 30px;
-}
-
 .footerText {
   text-align: center;
-}
-
-#getResultsButton {
-  width: 100px;
-  text-align: center;
-  border-radius: 10%;
 }
