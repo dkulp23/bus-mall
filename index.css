@@ -8,12 +8,6 @@ header {
   margin: 0 auto;
 }
 
-main {
-  overflow: auto;
-  width: 100%;
-}
-
-
 footer {
   background-color: orange;
   width: 600px;
@@ -22,6 +16,11 @@ footer {
 
 .headerText {
   text-align: center;
+}
+
+.images {
+  overflow: auto;
+  width: 100%;
 }
 
 .productImage {
@@ -41,6 +40,17 @@ footer {
   margin-left: -150px;*/
 }
 
+.button {
+  background-color: white;
+  margin-left: 30px;
+}
+
 .footerText {
   text-align: center;
+}
+
+#getResultsButton {
+  width: 100px;
+  text-align: center;
+  border-radius: 10%;
 }

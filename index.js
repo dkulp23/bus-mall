@@ -127,12 +127,17 @@ function removingEventListeners(eventType, functionToExecute) {
 } //function for disabling event listeners
 
 function countEventListeners() {
-  console.log(clickCounter);
   if (clickCounter < 15) {
     addingEventListeners('click', imgClickEvent);
   } else {
+    resultsButton();
     removingEventListeners('click', imgClickEvent);
   }
-}
+} //creates event listener for 15 clicks and then disables it
 
-countEventListeners();
+countEventListeners(); //calls function above
+
+function resultsButton() {
+  var divEl = document.getElementById('getResultsButton');
+  divEl.innerHTML = '<div>See the results!</div>';
+}
