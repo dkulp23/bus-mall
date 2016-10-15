@@ -59,6 +59,10 @@ function createTheProductInstances() {
 
 createTheProductInstances(); // calling function above
 
+var tracker = {
+  counter: 0,
+}
+
 function randomImageNumber(max) {
   for (var i = 0; i < 3; i++) {
     var number = Math.floor(Math.random() * max);
@@ -102,6 +106,8 @@ function imgClickEvent(event) {
       randomNumbers = [ ];
       randomImageNumber(imgPaths.length);
       showImages();
+      tracker.counter += 1;
+      console.log(tracker.counter);
     }
   }
 } //update value product object when it is clicked by user
@@ -111,11 +117,5 @@ function createEventListeners(eventType, functionToExecute) {
     userClick(imgIDNames[i]).addEventListener(eventType, functionToExecute);
   }
 } // function to create event listeners on each of the three images
-createEventListeners('click', imgClickEvent);
 
-// function eventFlow() {
-//   var counter = 0;
-//   while (counter < 15) {
-//   };
-// }
-// eventFlow(); //loop to listen for the click event 15 times
+createEventListeners('click', imgClickEvent);
