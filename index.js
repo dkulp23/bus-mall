@@ -100,6 +100,8 @@ function imgClickEvent(event) {
     if (userVote === allProducts[i].name) {
       allProducts[i].numTimesClicked += 1;
       console.log(allProducts[i].numTimesClicked);
+      randomNumbers = [ ];
+      randomImageNumber(imgPaths.length);
       showImages();
     }
   }
