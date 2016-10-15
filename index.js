@@ -66,6 +66,8 @@ function randomImageNumber(max) {
       var number = Math.floor(Math.random() * max);
     }
     randomNumbers.push(number);
+    allProducts[number].numTimesShown +=1;
+    console.log(allProducts[number].numTimesShown);
   }
 }
 
