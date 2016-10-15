@@ -35,6 +35,8 @@ var imgIDNames = [
   'rightImage'
 ]; //used to create document.getElementById helper function
 
+var clickCounter = 0; //counts user clicks
+
 function extractNames() {
   for (var i = 0; i < imgPaths.length; i++) {
     productNames.push(imgPaths[i].slice(4, -4));
@@ -58,6 +60,10 @@ function createTheProductInstances() {
 } // loop to create Product instances
 
 createTheProductInstances(); // calling function above
+
+var tracker = {
+
+}; //will become large obect to handle clicks
 
 function randomImageNumber(max) {
   for (var i = 0; i < 3; i++) {
@@ -102,20 +108,31 @@ function imgClickEvent(event) {
       randomNumbers = [ ];
       randomImageNumber(imgPaths.length);
       showImages();
+      clickCounter += 1;
+      countEventListeners();
     }
   }
 } //update value product object when it is clicked by user
 
-function createEventListeners(eventType, functionToExecute) {
+function addingEventListeners(eventType, functionToExecute) {
   for (var i = 0; i < imgIDNames.length; i++) {
     userClick(imgIDNames[i]).addEventListener(eventType, functionToExecute);
   }
 } // function to create event listeners on each of the three images
-createEventListeners('click', imgClickEvent);
 
-// function eventFlow() {
-//   var counter = 0;
-//   while (counter < 15) {
-//   };
-// }
-// eventFlow(); //loop to listen for the click event 15 times
+function removingEventListeners(eventType, functionToExecute) {
+  for (var i = 0; i < imgIDNames.length; i++) {
+    userclick(imgIDNames[i]).removeEventListener(eventType, functionToExecute);
+  }
+} //function for disabling event listeners
+
+function countEventListeners() {
+  console.log(clickCounter);
+  if (clickCounter < 15) {
+    addingEventListeners('click', imgClickEvent);
+  } else {
+    removingEventListeners('click', imgClickEvent);
+  }
+}
+
+countEventListeners();
