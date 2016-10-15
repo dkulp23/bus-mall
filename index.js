@@ -29,6 +29,12 @@ var imgPaths = [
   'img/wine-glass.jpg'
 ];
 
+var imgIDNames = [
+  'leftImage',
+  'middleImage',
+  'rightImage'
+];
+
 function extractNames() {
   for (var i = 0; i < imgPaths.length; i++) {
     productNames.push(imgPaths[i].slice(4, -4));
@@ -64,12 +70,10 @@ function randomImageNumber(max) {
 }
 
 randomImageNumber(imgPaths.length);
-// function imageArgument() {
-//   return allProducts[randomImageNumber(0, imgPaths.length)];
-// }
 
 function renderImage(prod, elementID) {
   var divEl = document.getElementById(elementID);
+  divEl.innerHTML = ' ';
   var imgEl = document.createElement('img');
   imgEl.setAttribute('id', prod.name);
   imgEl.setAttribute('class', 'randomImage')
@@ -77,21 +81,34 @@ function renderImage(prod, elementID) {
   divEl.appendChild(imgEl);
 }
 
-var clickTotals = {
-  left: renderImage(allProducts[randomNumbers[0]], 'leftImage'),
-  middle: renderImage(allProducts[randomNumbers[1]], 'middleImage'),
-  right: renderImage(allProducts[randomNumbers[2]], 'rightImage'),
-  imgEls: [
-    document.getElementById('leftImage'),
-    document.getElementById('middleImage'),
-    document.getElementById('rightImage')
-  ],
-  userVote: function() {
-    this.numTimesClicked += 1;
-  },
-  listen: imgEls[0].addEventListener('click', userVote)
-};
-
-function userVote(target) {
-  target.numTimesClicked += 1;
+function showImages() {
+  renderImage(allProducts[randomNumbers[0]], 'leftImage');
+  renderImage(allProducts[randomNumbers[1]], 'middleImage');
+  renderImage(allProducts[randomNumbers[2]], 'rightImage');
 }
+
+showImages();
+
+function userClick(idName) {
+  return document.getElementById(idName);
+}
+
+function imgClickEvent(event) {
+  var userVote = event.target.id;
+  console.log(userVote);
+  for (var i = 0; i < allProducts.length; i++) {
+    if (userVote === allProducts[i].name) {
+      allProducts[i].numTimesClicked += 1;
+      console.log(allProducts[i].numTimesClicked);
+      showImages();
+    }
+  }
+}
+
+function createEventListeners() {
+  for (var i = 0; i < imgIDNames.length; i++) {
+    userClick(imgIDNames[i]).addEventListener('click', imgClickEvent);
+  }
+}
+
+createEventListeners();
