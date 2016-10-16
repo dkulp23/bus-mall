@@ -78,8 +78,12 @@ function randomImageNumber(max) {
 
 randomImageNumber(imgPaths.length); //calls function above
 
+function $(idName) {
+  return document.getElementById(idName);
+} //helper function to hook element in DOM
+
 function renderImage(prod, elementID) {
-  var divEl = document.getElementById(elementID);
+  var divEl = $(elementID);
   divEl.innerHTML = ' ';
   var imgEl = document.createElement('img');
   imgEl.setAttribute('id', prod.name);
@@ -95,10 +99,6 @@ function showImages() {
 } // uses index values of products and unique random numbers generated to render images
 
 showImages(); //calls function above
-
-function userClick(idName) {
-  return document.getElementById(idName);
-} //helper function to hook element in DOM for click event handler
 
 function imgClickEvent(event) {
   var userVote = event.target.id;
@@ -116,34 +116,37 @@ function imgClickEvent(event) {
 
 function addingEventListeners(eventType, functionToExecute) {
   for (var i = 0; i < imgIDNames.length; i++) {
-    userClick(imgIDNames[i]).addEventListener(eventType, functionToExecute);
+    $(imgIDNames[i]).addEventListener(eventType, functionToExecute);
   }
 } // function to create event listeners on each of the three images
 
 function removingEventListeners(eventType, functionToExecute) {
   for (var i = 0; i < imgIDNames.length; i++) {
-    userclick(imgIDNames[i]).removeEventListener(eventType, functionToExecute);
+    $(imgIDNames[i]).removeEventListener(eventType, functionToExecute);
   }
 } //function for disabling event listeners
+
+function createButton(idName, nameAttribute, textContent) {
+  var divEl = $(idName);
+  var buttonEl = document.createElement('button');
+  buttonEl.setAttribute('name', nameAttribute);
+  buttonEl.textContent = textContent;
+  divEl.appendChild(buttonEl);
+} //create result and refresh button
 
 function countEventListeners() {
   if (clickCounter < 15) {
     addingEventListeners('click', imgClickEvent);
   } else {
-    resultsButton();
+    createButton('getResultsButton', 'resultsButton', 'See the results!');
     removingEventListeners('click', imgClickEvent);
   }
 } //creates event listener for 15 clicks and then disables it
 
 countEventListeners(); //calls function above
 
-function resultsButton() {
-  var divEl = document.getElementById('getResultsButton');
-  divEl.innerHTML = '<button name="resultsButton">See the results!</button>';
-} //create results button to display after 15 clicks
-
 function resultsButtonClickEvent(event) {
-  var divEl = document.getElementById('trackerList');
+  var divEl = $('trackerList');
   var listTitleEl = document.createElement('p');
   listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
   divEl.appendChild(listTitleEl);
@@ -153,12 +156,11 @@ function resultsButtonClickEvent(event) {
     if (allProducts[i].numTimesShown > 0) {
       var liEl = document.createElement('li');
       liEl.setAttribute('class', 'products');
-      liEl.textContent = allProducts[i].name + ' was clicked ' + allProducts[i].numTimesClicked + ' times out of ' + allProducts[i].numTimesShown + ' times shown.';
+      liEl.textContent = 'The ' + allProducts[i].name + ' was clicked ' + allProducts[i].numTimesClicked + ' times out of ' + allProducts[i].numTimesShown + ' times shown.';
       ulEl.appendChild(liEl);
     }
   }
   divEl.appendChild(ulEl);
 } //render list of products and times clicked in DOM
-//possibly add if (allProducts[i].numTimesShown > 0) as first line in for statement to only render items that were shown
 
-userClick('getResultsButton').addEventListener('click', resultsButtonClickEvent);
+$('getResultsButton').addEventListener('click', resultsButtonClickEvent);
