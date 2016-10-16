@@ -43,3 +43,8 @@ footer {
 .footerText {
   text-align: center;
 }
+
+#productList {
+  column-count: 2;
+  column-gap: 20px;
+}
