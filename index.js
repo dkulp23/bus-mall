@@ -150,10 +150,12 @@ function resultsButtonClickEvent(event) {
   var ulEl = document.createElement('ul');
   ulEl.setAttribute('id', 'productList');
   for (var i = 0; i < allProducts.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.setAttribute('class', 'products');
-    liEl.textContent = allProducts[i].name + ' was clicked ' + allProducts[i].numTimesClicked + ' times out of ' + allProducts[i].numTimesShown + ' times shown.';
-    ulEl.appendChild(liEl);
+    if (allProducts[i].numTimesShown > 0) {
+      var liEl = document.createElement('li');
+      liEl.setAttribute('class', 'products');
+      liEl.textContent = allProducts[i].name + ' was clicked ' + allProducts[i].numTimesClicked + ' times out of ' + allProducts[i].numTimesShown + ' times shown.';
+      ulEl.appendChild(liEl);
+    }
   }
   divEl.appendChild(ulEl);
 } //render list of products and times clicked in DOM
