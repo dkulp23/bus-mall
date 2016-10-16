@@ -140,13 +140,22 @@ countEventListeners(); //calls function above
 function resultsButton() {
   var divEl = document.getElementById('getResultsButton');
   divEl.innerHTML = '<button name="resultsButton">See the results!</button>';
-}
+} //create results button to display after 15 clicks
 
 function resultsButtonClickEvent(event) {
   var divEl = document.getElementById('trackerList');
-  var listTitle = document.createElement('p');
-  listTitle.textContent = 'Here is the list of all of the product images and a count of which ones you click:';
-  divEl.appendChild(listTitle);
-}
+  var listTitleEl = document.createElement('p');
+  listTitleEl.textContent = 'Here is the list of all of the product images and a count of which ones you clicked:';
+  divEl.appendChild(listTitleEl);
+  var ulEl = document.createElement('ul');
+  // ulEl.setAttribute('id', 'productList');
+  for (var i = 0; i < allProducts.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = allProducts[i].name + ': ' + allProducts[i].numTimesClicked;
+    console.log(liEl, ulEl);
+    ulEl.appendChild('liEl');
+  }
+  divEl.appendChild(ulEl);
+} //render results list in DOM
 
 userClick('getResultsButton').addEventListener('click', resultsButtonClickEvent);
