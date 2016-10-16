@@ -146,6 +146,9 @@ function countEventListeners() {
 countEventListeners(); //calls function above
 
 function resultsButtonClickEvent(event) {
+  var buttonEl = $('getResultsButton');
+  buttonEl.innerHTML = ' ';
+  createButton('resetButton', 'refreshButton', 'Reset the page');
   var divEl = $('trackerList');
   var listTitleEl = document.createElement('p');
   listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
@@ -164,3 +167,10 @@ function resultsButtonClickEvent(event) {
 } //render list of products and times clicked in DOM
 
 $('getResultsButton').addEventListener('click', resultsButtonClickEvent);
+
+function refreshThePage(event) {
+  localStorage.setItem('clicks', clickCounter);
+  window.location.reload();
+}
+
+$('resetButton').addEventListener('click', refreshThePage);
