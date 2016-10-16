@@ -145,17 +145,18 @@ function resultsButton() {
 function resultsButtonClickEvent(event) {
   var divEl = document.getElementById('trackerList');
   var listTitleEl = document.createElement('p');
-  listTitleEl.textContent = 'Here is the list of all of the product images and a count of which ones you clicked:';
+  listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
   divEl.appendChild(listTitleEl);
   var ulEl = document.createElement('ul');
-  // ulEl.setAttribute('id', 'productList');
+  ulEl.setAttribute('id', 'productList');
   for (var i = 0; i < allProducts.length; i++) {
     var liEl = document.createElement('li');
-    liEl.textContent = allProducts[i].name + ': ' + allProducts[i].numTimesClicked;
-    console.log(liEl, ulEl);
-    ulEl.appendChild('liEl');
+    liEl.setAttribute('class', 'products');
+    liEl.textContent = allProducts[i].name + ' was clicked ' + allProducts[i].numTimesClicked + ' times out of ' + allProducts[i].numTimesShown + ' times shown.';
+    ulEl.appendChild(liEl);
   }
   divEl.appendChild(ulEl);
-} //render results list in DOM
+} //render list of products and times clicked in DOM
+//possibly add if (allProducts[i].numTimesShown > 0) as first line in for statement to only render items that were shown
 
 userClick('getResultsButton').addEventListener('click', resultsButtonClickEvent);
