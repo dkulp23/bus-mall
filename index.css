@@ -26,22 +26,17 @@ footer {
 .productImage {
   height: 300px;
   width: 300px;
-  background-color: red;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 4px 4px green;
   float: left;
   margin: 50px 30px 50px 80px;
 }
 
 .randomImage {
-  box-shadow: 2px 2px 4px 4px green;
 }
 
 .footerText {
   text-align: center;
-}
-
-#productList {
-  column-count: 2;
-  column-gap: 20px;
 }
 
 #dog-duck {
@@ -94,4 +89,10 @@ footer {
 
 #pet-sweep {
   margin-top: 22px;
+}
+
+#productList {
+  column-count: 2;
+  column-gap: 20px;
+  list-style-type: none;
 }
