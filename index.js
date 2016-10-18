@@ -145,12 +145,17 @@ function countEventListeners() {
 
 countEventListeners(); //calls function above
 
+// function sortClicksForList(a, b) {
+//   return a - b;
+// } //helper function to sort number of clicks properly
+
 function resultsButtonClickEvent(event) {
   var buttonEl = $('getResultsButton');
   buttonEl.innerHTML = ' ';
   createButton('resetButton', 'refreshButton', 'Reset the page');
   var divEl = $('trackerList');
   var listTitleEl = document.createElement('p');
+  listTitleEl.setAttribute('id', 'listTitle');
   listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
   divEl.appendChild(listTitleEl);
   var ulEl = document.createElement('ul');
@@ -160,6 +165,7 @@ function resultsButtonClickEvent(event) {
       var liEl = document.createElement('li');
       liEl.setAttribute('class', 'products');
       liEl.textContent = 'The ' + allProducts[i].name + ' was clicked ' + allProducts[i].numTimesClicked + ' times out of ' + allProducts[i].numTimesShown + ' times shown.';
+
       ulEl.appendChild(liEl);
     }
   }

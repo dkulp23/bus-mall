@@ -26,29 +26,73 @@ footer {
 .productImage {
   height: 300px;
   width: 300px;
-  background-color: blue;
-  float: left;
+  background-color: #ffffff;
   box-shadow: 2px 2px 4px 4px green;
+  float: left;
   margin: 50px 30px 50px 80px;
 }
 
 .randomImage {
-  /*position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -150px;
-  margin-left: -150px;*/
 }
 
 .footerText {
   text-align: center;
 }
 
+#dog-duck {
+  margin-top: 50px;
+}
+
+#sweep {
+  margin-top: 48px;
+}
+
+#pen {
+  margin-top: 63px;
+}
+
+#breakfast {
+  margin-top: 30px;
+}
+
+#tauntaun {
+  margin-top: 26px;
+}
+
+#scissors {
+  margin-top: 37px;
+}
+
+#wine-glass {
+  margin-top: 12px;
+}
+
+#bag {
+  margin-top: 4px;
+}
+
+#unicorn {
+  margin-left: 21px;
+}
+
+#chair {
+  margin-top: 37px;
+}
+
+#dragon {
+  margin-left: 50px;
+}
+
+#shark {
+  margin-top: 55px;
+}
+
+#pet-sweep {
+  margin-top: 22px;
+}
+
 #productList {
   column-count: 2;
   column-gap: 20px;
-}
-
-#dog-duck {
-  margin: 50px 0px 0px 0px;
+  list-style-type: none;
 }
