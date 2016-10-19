@@ -40,6 +40,8 @@ var tracker = {
     'rightImage'
   ], //used to create document.getElementById helper function
   clickCounter: 0, //counts user clicks
+  productsClickedTimesForChart: [ ], //array of times clicked data for chart
+  productsShownTimesForChart: [ ], //array of times shown data for chart
 
   extractNames: function() {
     for (var i = 0; i < this.imgPaths.length; i++) {
@@ -128,26 +130,71 @@ var tracker = {
   }, //creates event listener for 15 clicks and then disables it
 
   resultsButtonClickEvent: function(event) {
+    tracker.getDataForChart();
     var buttonEl = tracker.$('getResultsButton');
     buttonEl.innerHTML = ' ';
     tracker.createButton('resetButton', 'refreshButton', 'Reset the page');
-    var divEl = tracker.$('trackerList');
-    var listTitleEl = document.createElement('p');
-    listTitleEl.setAttribute('id', 'listTitle');
-    listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
-    divEl.appendChild(listTitleEl);
-    var ulEl = document.createElement('ul');
-    ulEl.setAttribute('id', 'productList');
-    for (var i = 0; i < tracker.allProducts.length; i++) {
-      if (tracker.allProducts[i].numTimesShown > 0) {
-        var liEl = document.createElement('li');
-        liEl.setAttribute('class', 'products');
-        liEl.textContent = 'The ' + tracker.allProducts[i].name + ' was clicked ' + tracker.allProducts[i].numTimesClicked + ' times out of ' + tracker.allProducts[i].numTimesShown + ' times shown.';
-        ulEl.appendChild(liEl);
-      }
-    }
-    divEl.appendChild(ulEl);
+    // var divEl = tracker.$('trackerList');
+    // var listTitleEl = document.createElement('p');
+    // listTitleEl.setAttribute('id', 'listTitle');
+    // listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
+    // divEl.appendChild(listTitleEl);
+    // var ulEl = document.createElement('ul');
+    // ulEl.setAttribute('id', 'productList');
+    // for (var i = 0; i < tracker.allProducts.length; i++) {
+    //   if (tracker.allProducts[i].numTimesShown > 0) {
+    //     var liEl = document.createElement('li');
+    //     liEl.setAttribute('class', 'products');
+    //     liEl.textContent = 'The ' + tracker.allProducts[i].name + ' was clicked ' + tracker.allProducts[i].numTimesClicked + ' times out of ' + tracker.allProducts[i].numTimesShown + ' times shown.';
+    //     ulEl.appendChild(liEl);
+    //   }
+    // }
+    // divEl.appendChild(ulEl);
+    tracker.makeTheChart();
   }, //render list of products and times clicked in DOM
+
+  getDataForChart: function() {
+    tracker.productsClickedTimesForChart = [ ];
+    tracker.productsShownTimesForChart = [ ];
+    function getNumTimesClickedandShown(obj) {
+      tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
+      tracker.productsShownTimesForChart.push(obj.numTimesShown);
+    }
+    this.allProducts.forEach(getNumTimesClickedandShown);
+  }, //create data arrays for chart.js
+
+  makeTheChart: function() {
+    var canvasSectionEl = this.$('chart');
+    var canvasDivEl = document.createElement('div');
+    canvasDivEl.setAttribute('id', 'clickResultsChartDiv');
+    var canvasEl = document.createElement('canvas');
+    canvasEl.setAttribute('id', 'clickResultsChart');
+    canvasDivEl.appendChild(canvasEl);
+    canvasSectionEl.appendChild(canvasDivEl);
+    var ctx = this.$('clickResultsChart');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.productNames,
+        datasets: [
+          {
+            label: 'Number of Times Product was Clicked',
+            backgroundColor: 'rgb(6, 21, 57)',
+            borderColor: 'rgb(120, 135, 171)',
+            borderWidth: 1,
+            data: this.productsClickedTimesForChart,
+          },
+          {
+            label: 'Number of Times Product was Shown',
+            backgroundColor: 'rgb(85, 38, 0)',
+            borderColor: 'rgb(212, 154, 106)',
+            borderWidth: 1,
+            data: this.productsShownTimesForChart,
+          }
+        ]
+      }
+    })
+  }, //create canvas element and render chart of results using chart.js
 
   refreshThePage: function(event) {
     localStorage.setItem('clicks', tracker.clickCounter);

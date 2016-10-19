@@ -8,6 +8,11 @@ header {
   margin: 0 auto;
 }
 
+button {
+  display: block;
+  margin: 20px auto;
+}
+
 footer {
   background-color: orange;
   width: 600px;
@@ -95,4 +100,11 @@ footer {
   column-count: 2;
   column-gap: 20px;
   list-style-type: none;
+}
+
+#clickResultsChartDiv {
+  height: 300px;
+  width: 600px;
+  margin: 0 auto;
+  background-color: white;
 }
