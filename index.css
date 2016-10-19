@@ -8,6 +8,11 @@ header {
   margin: 0 auto;
 }
 
+button {
+  display: block;
+  margin: 20px auto;
+}
+
 footer {
   background-color: orange;
   width: 600px;
@@ -97,9 +102,9 @@ footer {
   list-style-type: none;
 }
 
-#chart {
+#clickResultsChartDiv {
   height: 300px;
-  width: 500px;
+  width: 600px;
   margin: 0 auto;
   background-color: white;
 }
