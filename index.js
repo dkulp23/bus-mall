@@ -35,9 +35,9 @@ var tracker = {
     'img/wine-glass.jpg'
   ],
   imgIDNames: [
-    'leftImage',
-    'middleImage',
-    'rightImage'
+    '#leftImage',
+    '#middleImage',
+    '#rightImage'
   ], //used to create document.getElementById helper function
   clickCounter: 0, //counts user clicks
   productsClickedTimesForChart: [ ], //array of times clicked data for chart
@@ -59,19 +59,19 @@ var tracker = {
     for (var i = 0; i < 3; i++) {
       var number = Math.floor(Math.random() * max);
       while(this.randomNumbers.indexOf(number) > -1) {
-        var number = Math.floor(Math.random() * max);
+        number = Math.floor(Math.random() * max);
       }
       this.randomNumbers.push(number);
       this.allProducts[number].numTimesShown +=1; //updates value of product objects when they're shown
     }
   }, //used to generate unique random number array
 
-  $: function(idName) {
-    return document.getElementById(idName);
+  $: function(selector) {
+    return document.querySelector(selector);
   }, //helper function to hook element in DOM
 
-  renderImage: function(prod, elementID) {
-    var divEl = this.$(elementID);
+  renderImage: function(prod, elementSelector) {
+    var divEl = this.$(elementSelector);
     divEl.innerHTML = ' ';
     var imgEl = document.createElement('img');
     imgEl.setAttribute('id', prod.name);
@@ -112,8 +112,8 @@ var tracker = {
     }
   }, //function for disabling event listeners
 
-  createButton: function(idName, nameAttribute, textContent) {
-    var divEl = this.$(idName);
+  createButton: function(elementSelector, nameAttribute, textContent) {
+    var divEl = this.$(elementSelector);
     var buttonEl = document.createElement('button');
     buttonEl.setAttribute('name', nameAttribute);
     buttonEl.textContent = textContent;
@@ -124,16 +124,16 @@ var tracker = {
     if (this.clickCounter < 15) {
       this.addingEventListeners('click', this.imgClickEvent);
     } else {
-      this.createButton('getResultsButton', 'resultsButton', 'See the results!');
+      this.createButton('#getResultsButton', 'resultsButton', 'See the results!');
       this.removingEventListeners('click', this.imgClickEvent);
     }
   }, //creates event listener for 15 clicks and then disables it
 
   resultsButtonClickEvent: function(event) {
     tracker.getDataForChart();
-    var buttonEl = tracker.$('getResultsButton');
+    var buttonEl = tracker.$('#getResultsButton');
     buttonEl.innerHTML = ' ';
-    tracker.createButton('resetButton', 'refreshButton', 'Reset the page');
+    tracker.createButton('#resetButton', 'refreshButton', 'Reset the page');
     // var divEl = tracker.$('trackerList');
     // var listTitleEl = document.createElement('p');
     // listTitleEl.setAttribute('id', 'listTitle');
@@ -153,25 +153,33 @@ var tracker = {
     tracker.makeTheChart();
   }, //render list of products and times clicked in DOM
 
-  getDataForChart: function() {
+  getDataForChart: function() { //TODO
     tracker.productsClickedTimesForChart = [ ];
     tracker.productsShownTimesForChart = [ ];
     function getNumTimesClickedandShown(obj) {
       tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
       tracker.productsShownTimesForChart.push(obj.numTimesShown);
     }
+    // function getTopFiveClickedItems(obj) {
+    //   var sortedArray = tracker.allProducts.map(function(obj) {
+    //     var arrayOfObjects = tracker.allProducts.sort(function(a, b){
+    //       return this.num //TODO
+    //     })
+    //
+    //   }
+    // }
     this.allProducts.forEach(getNumTimesClickedandShown);
   }, //create data arrays for chart.js
 
   makeTheChart: function() {
-    var canvasSectionEl = this.$('chart');
+    var canvasSectionEl = this.$('#chart');
     var canvasDivEl = document.createElement('div');
     canvasDivEl.setAttribute('id', 'clickResultsChartDiv');
     var canvasEl = document.createElement('canvas');
     canvasEl.setAttribute('id', 'clickResultsChart');
     canvasDivEl.appendChild(canvasEl);
     canvasSectionEl.appendChild(canvasDivEl);
-    var ctx = this.$('clickResultsChart');
+    var ctx = this.$('#clickResultsChart');
     var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -217,5 +225,5 @@ function doAllTheMethods(obj) {
 
 doAllTheMethods(tracker);
 
-tracker.$('getResultsButton').addEventListener('click', tracker.resultsButtonClickEvent);
-tracker.$('resetButton').addEventListener('click', tracker.refreshThePage);
+tracker.$('#getResultsButton').addEventListener('click', tracker.resultsButtonClickEvent);
+tracker.$('#resetButton').addEventListener('click', tracker.refreshThePage);
