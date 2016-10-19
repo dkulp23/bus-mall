@@ -131,6 +131,7 @@ var tracker = {
 
   resultsButtonClickEvent: function(event) {
     tracker.getDataForChart();
+    tracker.makeTheChart();
     var buttonEl = tracker.$('getResultsButton');
     buttonEl.innerHTML = ' ';
     tracker.createButton('resetButton', 'refreshButton', 'Reset the page');
@@ -155,26 +156,36 @@ var tracker = {
   getDataForChart: function() {
     function getNumTimesClickedandShown(obj) {
       tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
-      tracker.productsShownTimesForChart.push(ob.numTimesShown);
+      tracker.productsShownTimesForChart.push(obj.numTimesShown);
     }
     this.allProducts.forEach(getNumTimesClickedandShown);
   }, //create data arrays for chart.js
 
-  // makeTheChart: function() {
-  //   var ctx = this.$('clickResultsChart');
-  //   var myChart = new Chart(ctx, {
-  //     type: 'bar';
-  //     data: {
-  //       lables: this.productNames,
-  //       datasets: [
-  //         {
-  //           lable: 'Number of Times Product was Clicked',
-  //           data:
-  //         }
-  //       ]
-  //     }
-  //   })
-  // }, //render chart of results using chart.js
+  makeTheChart: function() {
+    var ctx = this.$('clickResultsChart');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.productNames,
+        datasets: [
+          {
+            label: 'Number of Times Product was Clicked',
+            backgroundColor: 'rgb(6, 21, 57)',
+            borderColor: 'rgb(120, 135, 171)',
+            borderWidth: 1,
+            data: this.productsClickedTimesForChart,
+          },
+          {
+            label: 'Number of Times Product was Shown',
+            backgroundColor: 'rgb(85, 38, 0)',
+            borderColor: 'rgb(212, 154, 106)',
+            borderWidth: 1,
+            data: this.productsShownTimesForChart,
+          }
+        ]
+      }
+    })
+  }, //render chart of results using chart.js
 
   refreshThePage: function(event) {
     localStorage.setItem('clicks', tracker.clickCounter);
