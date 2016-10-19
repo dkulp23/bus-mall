@@ -40,6 +40,8 @@ var tracker = {
     'rightImage'
   ], //used to create document.getElementById helper function
   clickCounter: 0, //counts user clicks
+  productsClickedTimesForChart: [ ], //array of times clicked data for chart
+  productsShownTimesForChart: [ ], //array of times shown data for chart
 
   extractNames: function() {
     for (var i = 0; i < this.imgPaths.length; i++) {
@@ -128,6 +130,7 @@ var tracker = {
   }, //creates event listener for 15 clicks and then disables it
 
   resultsButtonClickEvent: function(event) {
+    tracker.getDataForChart();
     var buttonEl = tracker.$('getResultsButton');
     buttonEl.innerHTML = ' ';
     tracker.createButton('resetButton', 'refreshButton', 'Reset the page');
@@ -148,6 +151,30 @@ var tracker = {
     }
     divEl.appendChild(ulEl);
   }, //render list of products and times clicked in DOM
+
+  getDataForChart: function() {
+    function getNumTimesClickedandShown(obj) {
+      tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
+      tracker.productsShownTimesForChart.push(ob.numTimesShown);
+    }
+    this.allProducts.forEach(getNumTimesClickedandShown);
+  }, //create data arrays for chart.js
+
+  // makeTheChart: function() {
+  //   var ctx = this.$('clickResultsChart');
+  //   var myChart = new Chart(ctx, {
+  //     type: 'bar';
+  //     data: {
+  //       lables: this.productNames,
+  //       datasets: [
+  //         {
+  //           lable: 'Number of Times Product was Clicked',
+  //           data:
+  //         }
+  //       ]
+  //     }
+  //   })
+  // }, //render chart of results using chart.js
 
   refreshThePage: function(event) {
     localStorage.setItem('clicks', tracker.clickCounter);
