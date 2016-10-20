@@ -45,6 +45,21 @@ var tracker = {
   productInstancesSortedDescendingByTimesClicked: [ ],
   topFiveProductsClicked: [ ],
 
+  checkForLocalStorage: function() {
+    if (localStorage.allProducts) {
+      var products = JSON.parse(localStorage.getItem('allProducts'));
+      for (var pro of products) {
+        new Product(pro.name, pro.filePath, pro.numTimesShown, pro.numTimesClicked);
+      }
+      tracker.extractNames();
+      tracker.randomImageNumber(tracker.imgPaths.length); //calls function to push 3 unique, random numbers to array
+      tracker.showImages(); //calls function above
+      tracker.countEventListeners(); //calls function above
+    } else {
+      doAllTheMethods(tracker);
+    }
+  },
+
   extractNames: function() {
     for (var i = 0; i < this.imgPaths.length; i++) {
       this.productNames.push(this.imgPaths[i].slice(4, -4));
@@ -136,48 +151,32 @@ var tracker = {
     var buttonEl = tracker.$('#getResultsButton');
     buttonEl.innerHTML = ' ';
     tracker.createButton('#resetButton', 'refreshButton', 'Reset the page');
-    // var divEl = tracker.$('trackerList');
-    // var listTitleEl = document.createElement('p');
-    // listTitleEl.setAttribute('id', 'listTitle');
-    // listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
-    // divEl.appendChild(listTitleEl);
-    // var ulEl = document.createElement('ul');
-    // ulEl.setAttribute('id', 'productList');
-    // for (var i = 0; i < tracker.allProducts.length; i++) {
-    //   if (tracker.allProducts[i].numTimesShown > 0) {
-    //     var liEl = document.createElement('li');
-    //     liEl.setAttribute('class', 'products');
-    //     liEl.textContent = 'The ' + tracker.allProducts[i].name + ' was clicked ' + tracker.allProducts[i].numTimesClicked + ' times out of ' + tracker.allProducts[i].numTimesShown + ' times shown.';
-    //     ulEl.appendChild(liEl);
-    //   }
-    // }
-    // divEl.appendChild(ulEl);
     tracker.makeTheChart();
   }, //render list of products and times clicked in DOM
 
   getDataForChart: function() { //TODO
-    tracker.productsClickedTimesForChart = [ ];
-    tracker.productsShownTimesForChart = [ ];
+    // tracker.productsClickedTimesForChart = [ ];
+    // tracker.productsShownTimesForChart = [ ];
     function getNumTimesClickedandShown(obj) {
       tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
       tracker.productsShownTimesForChart.push(obj.numTimesShown);
     }
-    function sortTheArrayBasedOnClicks(obj) {
-      tracker.allProducts.sort(function(a, b) {
-        return a.numTimesClicked - b.numTimesClicked;
-      })
-    }
-    this.allProducts.forEach(getNumTimesClickedandShown);
-    sortTheArrayBasedOnClicks();
-    function reverseTheSortedArray(source, destination) {
-      destination.push(source.reverse());
-    }
-    reverseTheSortedArray(this.allProducts, this.productInstancesSortedDescendingByTimesClicked);
-    function extractTheTopFive() {
-      tracker.productInstancesSortedDescendingByTimesClicked.splice(5);
-      tracker.topFiveProductsClicked.push(tracker.productInstancesSortedDescendingByTimesClicked);
-    }
-    extractTheTopFive();
+    // function sortTheArrayBasedOnClicks(obj) {
+    //   tracker.allProducts.sort(function(a, b) {
+    //     return a.numTimesClicked - b.numTimesClicked;
+    //   })
+    // }
+    tracker.allProducts.forEach(getNumTimesClickedandShown);
+    // sortTheArrayBasedOnClicks();
+    // function reverseTheSortedArray(source, destination) {
+    //   destination.push(source.reverse());
+    // }
+    // reverseTheSortedArray(this.allProducts, this.productInstancesSortedDescendingByTimesClicked);
+    // function extractTheTopFive() {
+    //   tracker.productInstancesSortedDescendingByTimesClicked.splice(5);
+    //   tracker.topFiveProductsClicked.push(tracker.productInstancesSortedDescendingByTimesClicked);
+    // }
+    // extractTheTopFive();
   }, //create data arrays for chart.js
 
   makeTheChart: function() {
@@ -228,7 +227,8 @@ function doAllTheMethods(obj) {
   obj.countEventListeners(); //calls function above
 }
 
-doAllTheMethods(tracker);
+tracker.checkForLocalStorage();
+// doAllTheMethods(tracker);
 
 tracker.$('#getResultsButton').addEventListener('click', tracker.resultsButtonClickEvent);
 tracker.$('#resetButton').addEventListener('click', tracker.refreshThePage);
