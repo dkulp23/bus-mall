@@ -43,6 +43,7 @@ var tracker = {
   productsClickedTimesForChart: [ ], //array of times clicked data for chart
   productsShownTimesForChart: [ ], //array of times shown data for chart
   productInstancesSortedDescendingByTimesClicked: [ ],
+  topFiveProductsClicked: [ ],
 
   extractNames: function() {
     for (var i = 0; i < this.imgPaths.length; i++) {
@@ -161,17 +162,22 @@ var tracker = {
       tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
       tracker.productsShownTimesForChart.push(obj.numTimesShown);
     }
-    function getTopFiveClickedItems(obj) {
+    function sortTheArrayBasedOnClicks(obj) {
       tracker.allProducts.sort(function(a, b) {
         return a.numTimesClicked - b.numTimesClicked;
       })
     }
     this.allProducts.forEach(getNumTimesClickedandShown);
-    getTopFiveClickedItems();
+    sortTheArrayBasedOnClicks();
     function reverseTheSortedArray(source, destination) {
       destination.push(source.reverse());
     }
     reverseTheSortedArray(this.allProducts, this.productInstancesSortedDescendingByTimesClicked);
+    function extractTheTopFive() {
+      tracker.productInstancesSortedDescendingByTimesClicked.splice(5);
+      tracker.topFiveProductsClicked.push(tracker.productInstancesSortedDescendingByTimesClicked);
+    }
+    extractTheTopFive();
   }, //create data arrays for chart.js
 
   makeTheChart: function() {
