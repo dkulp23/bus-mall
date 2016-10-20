@@ -218,11 +218,7 @@ var tracker = {
     window.location.reload();
   },
 
-  // function sortClicksForList(a, b) {
-  //   return a - b;
-  // } //helper function to sort number of clicks properly
-
-}; //will become large obect to handle clicks
+};
 
 function doAllTheMethods(obj) {
   obj.extractNames(); //calling function to create product name values
