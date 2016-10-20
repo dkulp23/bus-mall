@@ -1,10 +1,10 @@
 'use strict';
 
-var Product = function(productName, productPath) {
+var Product = function(productName, productPath, timesShown, timesClicked) {
   this.name = productName;
   this.filePath = productPath;
-  this.numTimesShown = 0;
-  this.numTimesClicked = 0;
+  this.numTimesShown = timesShown || 0;
+  this.numTimesClicked = timesClicked || 0;
   tracker.allProducts.push(this);
 }; // constructor for Product object instances
 
@@ -214,7 +214,7 @@ var tracker = {
   }, //create canvas element and render chart of results using chart.js
 
   refreshThePage: function(event) {
-    localStorage.setItem('clicks', tracker.clickCounter);
+    localStorage.setItem('allProducts', JSON.stringify(tracker.allProducts));
     window.location.reload();
   },
 
