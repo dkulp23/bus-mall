@@ -42,6 +42,7 @@ var tracker = {
   clickCounter: 0, //counts user clicks
   productsClickedTimesForChart: [ ], //array of times clicked data for chart
   productsShownTimesForChart: [ ], //array of times shown data for chart
+  percentageClicksToShown: [ ],
   productInstancesSortedDescendingByTimesClicked: [ ],
   topFiveProductsClicked: [ ],
 
@@ -167,6 +168,7 @@ var tracker = {
     //   })
     // }
     tracker.allProducts.forEach(getNumTimesClickedandShown);
+    tracker.calculationsForChartData(tracker.productsClickedTimesForChart, tracker.productsShownTimesForChart);
     // sortTheArrayBasedOnClicks();
     // function reverseTheSortedArray(source, destination) {
     //   destination.push(source.reverse());
@@ -178,6 +180,12 @@ var tracker = {
     // }
     // extractTheTopFive();
   }, //create data arrays for chart.js
+
+  calculationsForChartData: function(clicked, shown) {
+    for (var i = 0; i < tracker.productsClickedTimesForChart.length; i++) {
+      tracker.percentageClicksToShown.push(((clicked[i] / shown[i]) * 100).toFixed(2));
+    }
+  },
 
   makeTheChart: function() {
     var canvasSectionEl = this.$('#chart');
