@@ -99,9 +99,9 @@ var tracker = {
   }, //helper function for rendering images in DOM
 
   showImages: function() {
-    this.renderImage(this.allProducts[this.randomNumbers[0]], this.imgIDNames[0]);
-    this.renderImage(this.allProducts[this.randomNumbers[1]], this.imgIDNames[1]);
-    this.renderImage(this.allProducts[this.randomNumbers[2]], this.imgIDNames[2]);
+    for (var i = 0; i < this.randomNumbers.length; i++) {
+      this.renderImage(this.allProducts[this.randomNumbers[i]], this.imgIDNames[i]);
+    }
   }, // uses index values of products and unique random numbers generated to render images
 
   imgClickEvent: function(event) {
@@ -153,6 +153,7 @@ var tracker = {
     buttonEl.innerHTML = ' ';
     tracker.createButton('#resetButton', 'refreshButton', 'Reset the page');
     tracker.makeTheChart();
+    tracker.makeTheDoughnutChart();
   }, //render list of products and times clicked in DOM
 
   getDataForChart: function() { //TODO
@@ -162,17 +163,20 @@ var tracker = {
       tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
       tracker.productsShownTimesForChart.push(obj.numTimesShown);
     }
+
     // function sortTheArrayBasedOnClicks(obj) {
     //   tracker.allProducts.sort(function(a, b) {
     //     return a.numTimesClicked - b.numTimesClicked;
     //   })
     // }
-    tracker.allProducts.forEach(getNumTimesClickedandShown);
-    tracker.calculationsForChartData(tracker.productsClickedTimesForChart, tracker.productsShownTimesForChart);
-    // sortTheArrayBasedOnClicks();
+    //
     // function reverseTheSortedArray(source, destination) {
     //   destination.push(source.reverse());
     // }
+
+    tracker.allProducts.forEach(getNumTimesClickedandShown);
+    tracker.calculationsForChartData(tracker.productsClickedTimesForChart, tracker.productsShownTimesForChart);
+    // sortTheArrayBasedOnClicks();
     // reverseTheSortedArray(this.allProducts, this.productInstancesSortedDescendingByTimesClicked);
     // function extractTheTopFive() {
     //   tracker.productInstancesSortedDescendingByTimesClicked.splice(5);
@@ -203,18 +207,62 @@ var tracker = {
         datasets: [
           {
             label: 'Number of Times Product was Clicked',
-            backgroundColor: 'rgb(6, 21, 57)',
-            borderColor: 'rgb(120, 135, 171)',
+            backgroundColor: 'rgba( 51, 92, 124, 1)',
+            borderColor: 'rgba( 28, 70, 101, 1)',
             borderWidth: 1,
             data: this.productsClickedTimesForChart,
           },
           {
             label: 'Number of Times Product was Shown',
-            backgroundColor: 'rgb(85, 38, 0)',
-            borderColor: 'rgb(212, 154, 106)',
+            backgroundColor: 'rgba(193, 106, 71, 1)',
+            borderColor: 'rgba(157, 71, 36, 1)',
             borderWidth: 1,
             data: this.productsShownTimesForChart,
           }
+        ]
+      }
+    })
+  }, //create canvas element and render chart of results using chart.js
+
+  makeTheDoughnutChart: function() {
+    var canvasSectionEl = this.$('#doughnutChart');
+    var canvasDivEl = document.createElement('div');
+    canvasDivEl.setAttribute('id', 'clickResultsDoughnutChartDiv');
+    var canvasEl = document.createElement('canvas');
+    canvasEl.setAttribute('id', 'clickResultsDoughnutChart');
+    canvasDivEl.appendChild(canvasEl);
+    canvasSectionEl.appendChild(canvasDivEl);
+    var ctx = this.$('#clickResultsDoughnutChart');
+    var myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: this.productNames,
+        datasets: [
+          {
+            data: this.percentageClicksToShown,
+            backgroundColor: [
+              '#527896',
+              '#E9CD78',
+              '#E99878',
+              '#6060A3',
+              '#B2C7D8',
+              '#BBBBDE',
+              '#FFF3D0',
+              '#FFEBD0',
+              '#7C9CB4',
+              '#8A8AC0',
+              '#FFEAAA',
+              '#FFDBAA',
+              '#335C7C',
+              '#3E3E87',
+              '#C1A247',
+              '#C18D47',
+              '#1C4665',
+              '#26266E',
+              '#9D7F24',
+              '#9D6924'
+            ]
+          },
         ]
       }
     })

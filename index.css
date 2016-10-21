@@ -1,26 +1,38 @@
 body {
-  background-color: red;
+  max-width: 1000px;
+  background-color: #7C9CB4;
+  font-family: 'Luckiest Guy', cursive;
+  color: #1C4665;
 }
 
 header {
-  background-color: violet;
-  width: 600px;
+  background-color: #E99878;
+  border: 2px dashed #FFEAAA;
+  border-radius: 5px;
+  width: 800px;
   margin: 0 auto;
 }
 
 button {
   display: block;
   margin: 20px auto;
+  background: #9D4724;
+  border-radius: 5px;
+  color: #FFF3D0;
+  padding: 20px;
 }
 
 footer {
-  background-color: orange;
-  width: 600px;
+  background-color: #E9CD78;
+  border: 2px dashed #C16A47;
+  border-radius: 5px;
+  width: 300px;
   margin: 0 auto;
 }
 
 .headerText {
   text-align: center;
+  padding: 10px 20px 5px 10px;
 }
 
 .images {
@@ -32,12 +44,18 @@ footer {
   height: 300px;
   width: 300px;
   background-color: #ffffff;
-  box-shadow: 2px 2px 4px 4px green;
+  box-shadow: 2px 2px 4px 4px #FFC2AA;
   float: left;
-  margin: 50px 30px 50px 80px;
+  margin: 50px 10px 50px 20px;
+  border-radius: 3px;
 }
 
 .randomImage {
+  display: block;
+  margin: 0 auto;
+  max-width: 98%;
+  max-height: 98%;
+  border-radius: 3px;
 }
 
 .footerText {
@@ -103,8 +121,19 @@ footer {
 }
 
 #clickResultsChartDiv {
-  height: 300px;
-  width: 600px;
-  margin: 0 auto;
-  background-color: white;
+  height: 400px;
+  width: 800px;
+  padding: 5px;
+  margin: 20px auto;
+  background-color: #FFDDD0;
+  border: 2px solid #335C7C;
+}
+
+#clickResultsDoughnutChartDiv {
+  height: 400px;
+  width: 800px;
+  padding: 5px;
+  margin: 20px auto;
+  background-color: #FFDDD0;
+  border: 2px solid #335C7C;
 }
