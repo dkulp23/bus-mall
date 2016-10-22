@@ -4,12 +4,23 @@ var marketingTable = {
   productsShown: [ ],
   productsClicked: [ ],
   productsPercentage: [ ],
+  recommendation: [ ],
 
   quickExtactProductData: function() {
     marketingTable.productNames = marketingTable.products.productsNamesArrayForChart;
     marketingTable.productsShown = marketingTable.products.productsShownTimesForChart;
     marketingTable.productsClicked = marketingTable.products.productsClickedTimesForChart;
     marketingTable.productsPercentage = marketingTable.products.percentageClicksToShown;
+  },
+
+  yesOrNo: function() {
+    for(var i = 0; i < marketingTable.productsPercentage.length; i++) {
+      if(marketingTable.productsPercentage[i] < 25) {
+        marketingTable.recommendation.push('no');
+      } else {
+        marketingTable.recommendation.push('yes');
+      }
+    }
   },
 
   makeAnElementWithText: function(element, textContent, parent) {
@@ -31,12 +42,13 @@ var marketingTable = {
 
   populateTable: function(name, viewed, clicked, percent) {
     for(var i = 0; i < marketingTable.productNames.length; i++) {
-      marketingTable.createRow('marketingData', 'tr', 'td', name[i], viewed[i], clicked[i], percent[i], 'yes');
+      marketingTable.createRow('marketingData', 'tr', 'td', name[i], viewed[i], clicked[i], percent[i] + '%', 'yes');
     }
   },
 
 }
 
 marketingTable.quickExtactProductData();
+marketingTable.yesOrNo();
 marketingTable.createRow('marketingData', 'thead', 'th', 'Item', 'Views', 'Clicks', '% Times Clicked When Shown', 'Recomended?');
 marketingTable.populateTable(marketingTable.productNames, marketingTable.productsShown, marketingTable.productsClicked, marketingTable.productsPercentage);
