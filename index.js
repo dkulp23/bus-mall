@@ -151,30 +151,32 @@ var tracker = {
     tracker.getDataForChart();
     var buttonEl = tracker.$('#getResultsButton');
     buttonEl.innerHTML = ' ';
-    tracker.createButton('#resetButton', 'refreshButton', 'Reset the page');
+    tracker.createButton('#resetButton', 'refreshButton', 'Pick Your Favorites Again');
+    tracker.createButton('#clearStorageButton', 'clearStorage', 'Clear Results and Start Again');
     tracker.makeTheChart();
     tracker.makeTheDoughnutChart();
   }, //render list of products and times clicked in DOM
 
-  getDataForChart: function() { //TODO
+  getNumTimesClickedandShown: function(obj) {
+    tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
+    tracker.productsShownTimesForChart.push(obj.numTimesShown);
+  }, //helper function to use with forEach to extract data for chart
+
+  sortTheArrayBasedOnClicks: function(obj) {
+    tracker.allProducts.sort(function(a, b) {
+      return a.numTimesClicked - b.numTimesClicked;
+    })
+  }, //function to sort object instances by number of times clicked (ascending)
+
+  reverseTheSortedArray: function(source, destination) {
+    destination.push(source.reverse());
+  }, //function to reverse order of sort (descending) to help extract top five
+
+  getDataForChart: function() {
     // tracker.productsClickedTimesForChart = [ ];
     // tracker.productsShownTimesForChart = [ ];
-    function getNumTimesClickedandShown(obj) {
-      tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
-      tracker.productsShownTimesForChart.push(obj.numTimesShown);
-    }
 
-    // function sortTheArrayBasedOnClicks(obj) {
-    //   tracker.allProducts.sort(function(a, b) {
-    //     return a.numTimesClicked - b.numTimesClicked;
-    //   })
-    // }
-    //
-    // function reverseTheSortedArray(source, destination) {
-    //   destination.push(source.reverse());
-    // }
-
-    tracker.allProducts.forEach(getNumTimesClickedandShown);
+    tracker.allProducts.forEach(tracker.getNumTimesClickedandShown);
     tracker.calculationsForChartData(tracker.productsClickedTimesForChart, tracker.productsShownTimesForChart);
     // sortTheArrayBasedOnClicks();
     // reverseTheSortedArray(this.allProducts, this.productInstancesSortedDescendingByTimesClicked);
@@ -273,6 +275,11 @@ var tracker = {
     window.location.reload();
   },
 
+  clearResults: function(event) {
+    localStorage.removeItem('allProducts');
+    window.location.reload();
+  },
+
 };
 
 function doAllTheMethods(obj) {
@@ -284,7 +291,7 @@ function doAllTheMethods(obj) {
 }
 
 tracker.checkForLocalStorage();
-// doAllTheMethods(tracker);
 
 tracker.$('#getResultsButton').addEventListener('click', tracker.resultsButtonClickEvent);
 tracker.$('#resetButton').addEventListener('click', tracker.refreshThePage);
+tracker.$('#clearStorageButton').addEventListener('click', tracker.clearResults);
