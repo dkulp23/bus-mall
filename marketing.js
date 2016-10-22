@@ -1,9 +1,15 @@
 var marketingTable = {
   products: JSON.parse(localStorage.getItem('tracker')),
-  allProducts: [ ],
+  productNames: [ ],
+  productsShown: [ ],
+  productsClicked: [ ],
+  productsPercentage: [ ],
 
   quickExtactProductData: function() {
-    marketingTable.allProducts = marketingTable.products.allProducts;
+    marketingTable.productNames = marketingTable.products.productsNamesArrayForChart;
+    marketingTable.productsShown = marketingTable.products.productsShownTimesForChart;
+    marketingTable.productsClicked = marketingTable.products.productsClickedTimesForChart;
+    marketingTable.productsPercentage = marketingTable.products.percentageClicksToShown;
   },
 
   makeAnElementWithText: function(element, textContent, parent) {
@@ -23,13 +29,14 @@ var marketingTable = {
     tableEl.appendChild(rowEl);
   },
 
-  // loopForTableText: function(name, ) {
-  //   for(var i = 0; i < marketingTable.allProducts.length; i++) {
-  //     marketingTable.createRow('marketingData', '')
-  //   }
-  // },
+  populateTable: function(name, viewed, clicked, percent) {
+    for(var i = 0; i < marketingTable.productNames.length; i++) {
+      marketingTable.createRow('marketingData', 'tr', 'td', name[i], viewed[i], clicked[i], percent[i], 'yes');
+    }
+  },
 
 }
 
 marketingTable.quickExtactProductData();
 marketingTable.createRow('marketingData', 'thead', 'th', 'Item', 'Views', 'Clicks', '% Times Clicked When Shown', 'Recomended?');
+marketingTable.populateTable(marketingTable.productNames, marketingTable.productsShown, marketingTable.productsClicked, marketingTable.productsPercentage);
