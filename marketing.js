@@ -1,16 +1,18 @@
 var marketingTable = {
-  products: JSON.parse(localStorage.getItem('tracker')),
+  products: JSON.parse(localStorage.getItem('allProducts')),
   productNames: [ ],
   productsShown: [ ],
   productsClicked: [ ],
   productsPercentage: [ ],
   recommendation: [ ],
 
-  quickExtactProductData: function() {
-    marketingTable.productNames = marketingTable.products.productsNamesArrayForChart;
-    marketingTable.productsShown = marketingTable.products.productsShownTimesForChart;
-    marketingTable.productsClicked = marketingTable.products.productsClickedTimesForChart;
-    marketingTable.productsPercentage = marketingTable.products.percentageClicksToShown;
+  extactProductData: function() {
+    for(var i = 0; i < marketingTable.products.length; i++) {
+      marketingTable.productNames.push(marketingTable.products[i].name);
+      marketingTable.productsShown.push(marketingTable.products[i].numTimesShown);
+      marketingTable.productsClicked.push(marketingTable.products[i].numTimesClicked);
+      marketingTable.productsPercentage.push(marketingTable.products[i].clickPercentage);
+    }
   },
 
   yesOrNo: function() {
@@ -40,15 +42,19 @@ var marketingTable = {
     tableEl.appendChild(rowEl);
   },
 
-  populateTable: function(name, viewed, clicked, percent) {
+  populateTable: function(name, viewed, clicked, percent, recommend) {
     for(var i = 0; i < marketingTable.productNames.length; i++) {
-      marketingTable.createRow('marketingData', 'tr', 'td', name[i], viewed[i], clicked[i], percent[i] + '%', 'yes');
+      marketingTable.createRow('marketingData', 'tr', 'td', name[i], viewed[i], clicked[i], percent[i] + '%', recommend[i]);
     }
   },
 
+  setSelector: function() {
+    
+  }
+
 }
 
-marketingTable.quickExtactProductData();
+marketingTable.extactProductData();
 marketingTable.yesOrNo();
 marketingTable.createRow('marketingData', 'thead', 'th', 'Item', 'Views', 'Clicks', '% Times Clicked When Shown', 'Recomended?');
-marketingTable.populateTable(marketingTable.productNames, marketingTable.productsShown, marketingTable.productsClicked, marketingTable.productsPercentage);
+marketingTable.populateTable(marketingTable.productNames, marketingTable.productsShown, marketingTable.productsClicked, marketingTable.productsPercentage, marketingTable.recommendation);

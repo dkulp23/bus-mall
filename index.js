@@ -282,7 +282,7 @@ var tracker = {
   },
 
   goToMarketingPage: function(event) {
-    localStorage.setItem('tracker', JSON.stringify(tracker));
+    localStorage.setItem('allProducts', JSON.stringify(tracker.allProducts));
     window.location.assign('file:///Users/JRM/cf/201/bus-mall/marketing.html');
   }
 
