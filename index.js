@@ -1,10 +1,11 @@
 'use strict';
 
-var Product = function(productName, productPath, timesShown, timesClicked) {
+var Product = function(productName, productPath, timesShown, timesClicked, clickPercentage) {
   this.name = productName;
   this.filePath = productPath;
   this.numTimesShown = timesShown || 0;
   this.numTimesClicked = timesClicked || 0;
+  this.clickPercentage = clickPercentage || 0;
   tracker.allProducts.push(this);
 }; // constructor for Product object instances
 
@@ -73,6 +74,12 @@ var tracker = {
       new Product(this.productNames[i], this.imgPaths[i]);
     }
   }, // loop to create Product instances
+
+  calculateClickPercentage: function() {
+    for (var i = 0; i < tracker.allProducts.length; i++) {
+      tracker.allProducts[i].clickPercentage = ((tracker.allProducts[i].numTimesClicked / tracker.allProducts[i].numTimesShown) * 100).toFixed(2);
+    }
+  },
 
   randomImageNumber: function(max) {
     for (var i = 0; i < 3; i++) {
@@ -163,11 +170,12 @@ var tracker = {
     tracker.productsNamesArrayForChart.push(obj.name);
     tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
     tracker.productsShownTimesForChart.push(obj.numTimesShown);
+    tracker.percentageClicksToShown.push(obj.clickPercentage);
   }, //helper function to use with forEach to extract data for chart
 
-  sortTheArrayBasedOnClicks: function(obj) {
+  sortTheArrayBasedOnClickPercentage: function() {
     tracker.allProducts.sort(function(a, b) {
-      return a.numTimesClicked - b.numTimesClicked;
+      return a.clickPercentage - b.clickPercentage;
     })
   }, //function to sort object instances by number of times clicked (ascending)
 
@@ -175,20 +183,15 @@ var tracker = {
     destination.push(source.reverse());
   }, //function to reverse order of sort (descending) to help extract top five
 
-  calculationsForChartData: function(clicked, shown) {
-    for (var i = 0; i < tracker.productsClickedTimesForChart.length; i++) {
-      tracker.percentageClicksToShown.push(((clicked[i] / shown[i]) * 100).toFixed(2));
-    }
-  },
 
   getDataForChart: function() {
     tracker.productsNamesArrayForChart = [ ];
     tracker.productsShownTimesForChart = [ ];
     tracker.productsClickedTimesForChart = [ ];
-    tracker.sortTheArrayBasedOnClicks();
+    tracker.calculateClickPercentage();
+    tracker.sortTheArrayBasedOnClickPercentage();
     tracker.reverseTheSortedArray(tracker.allProducts, tracker.productInstancesSortedDescendingByTimesClicked);
     tracker.allProducts.forEach(tracker.getNumTimesClickedandShown);
-    tracker.calculationsForChartData(tracker.productsClickedTimesForChart, tracker.productsShownTimesForChart);
   }, //create data arrays for chart.js
 
   makeTheChart: function() {
