@@ -188,11 +188,6 @@ var tracker = {
     tracker.reverseTheSortedArray(tracker.allProducts, tracker.productInstancesSortedDescendingByTimesClicked);
     tracker.allProducts.forEach(tracker.getNumTimesClickedandShown);
     tracker.calculationsForChartData(tracker.productsClickedTimesForChart, tracker.productsShownTimesForChart);
-    // function extractTheTopFive() {
-    //   tracker.productInstancesSortedDescendingByTimesClicked.splice(5);
-    //   tracker.topFiveProductsClicked.push(tracker.productInstancesSortedDescendingByTimesClicked);
-    // }
-    // extractTheTopFive();
   }, //create data arrays for chart.js
 
   makeTheChart: function() {
