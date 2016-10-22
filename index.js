@@ -156,6 +156,7 @@ var tracker = {
     tracker.makeTheChart();
     tracker.makeTheDoughnutChart();
     tracker.createButton('#clearStorageButton', 'clearStorage', 'Clear Results and Start Again');
+    tracker.createButton('#marketingData', 'redirectToTable', 'Marketing Team Click Here');
   }, //render list of products and times clicked in DOM
 
   getNumTimesClickedandShown: function(obj) {
@@ -277,6 +278,11 @@ var tracker = {
     window.location.reload();
   },
 
+  goToMarketingPage: function(event) {
+    localStorage.setItem('allProducts', JSON.stringify(tracker.allProducts));
+    window.location.assign('file:///Users/JRM/cf/201/bus-mall/marketing.html');
+  }
+
 };
 
 function doAllTheMethods(obj) {
@@ -292,3 +298,4 @@ tracker.checkForLocalStorage();
 tracker.$('#getResultsButton').addEventListener('click', tracker.resultsButtonClickEvent);
 tracker.$('#resetButton').addEventListener('click', tracker.refreshThePage);
 tracker.$('#clearStorageButton').addEventListener('click', tracker.clearResults);
+tracker.$('#marketingData').addEventListener('click', tracker.goToMarketingPage);
