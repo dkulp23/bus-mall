@@ -40,10 +40,27 @@ var tracker = {
     '#rightImage'
   ], //used to create document.getElementById helper function
   clickCounter: 0, //counts user clicks
+  productsNamesArrayForChart: [ ], //array of names for chart labels
   productsClickedTimesForChart: [ ], //array of times clicked data for chart
   productsShownTimesForChart: [ ], //array of times shown data for chart
+  percentageClicksToShown: [ ],
   productInstancesSortedDescendingByTimesClicked: [ ],
   topFiveProductsClicked: [ ],
+
+  checkForLocalStorage: function() {
+    if (localStorage.allProducts) {
+      var products = JSON.parse(localStorage.getItem('allProducts'));
+      for (var pro of products) {
+        new Product(pro.name, pro.filePath, pro.numTimesShown, pro.numTimesClicked);
+      }
+      tracker.extractNames();
+      tracker.randomImageNumber(tracker.imgPaths.length); //calls function to push 3 unique, random numbers to array
+      tracker.showImages(); //calls function above
+      tracker.countEventListeners(); //calls function above
+    } else {
+      doAllTheMethods(tracker);
+    }
+  },
 
   extractNames: function() {
     for (var i = 0; i < this.imgPaths.length; i++) {
@@ -83,9 +100,9 @@ var tracker = {
   }, //helper function for rendering images in DOM
 
   showImages: function() {
-    this.renderImage(this.allProducts[this.randomNumbers[0]], this.imgIDNames[0]);
-    this.renderImage(this.allProducts[this.randomNumbers[1]], this.imgIDNames[1]);
-    this.renderImage(this.allProducts[this.randomNumbers[2]], this.imgIDNames[2]);
+    for (var i = 0; i < this.randomNumbers.length; i++) {
+      this.renderImage(this.allProducts[this.randomNumbers[i]], this.imgIDNames[i]);
+    }
   }, // uses index values of products and unique random numbers generated to render images
 
   imgClickEvent: function(event) {
@@ -135,49 +152,47 @@ var tracker = {
     tracker.getDataForChart();
     var buttonEl = tracker.$('#getResultsButton');
     buttonEl.innerHTML = ' ';
-    tracker.createButton('#resetButton', 'refreshButton', 'Reset the page');
-    // var divEl = tracker.$('trackerList');
-    // var listTitleEl = document.createElement('p');
-    // listTitleEl.setAttribute('id', 'listTitle');
-    // listTitleEl.textContent = 'Here is a list of the available products and a count of which ones you chose:';
-    // divEl.appendChild(listTitleEl);
-    // var ulEl = document.createElement('ul');
-    // ulEl.setAttribute('id', 'productList');
-    // for (var i = 0; i < tracker.allProducts.length; i++) {
-    //   if (tracker.allProducts[i].numTimesShown > 0) {
-    //     var liEl = document.createElement('li');
-    //     liEl.setAttribute('class', 'products');
-    //     liEl.textContent = 'The ' + tracker.allProducts[i].name + ' was clicked ' + tracker.allProducts[i].numTimesClicked + ' times out of ' + tracker.allProducts[i].numTimesShown + ' times shown.';
-    //     ulEl.appendChild(liEl);
-    //   }
-    // }
-    // divEl.appendChild(ulEl);
+    tracker.createButton('#resetButton', 'refreshButton', 'Pick Your Favorites Again');
     tracker.makeTheChart();
+    tracker.makeTheDoughnutChart();
+    tracker.createButton('#clearStorageButton', 'clearStorage', 'Clear Results and Start Again');
   }, //render list of products and times clicked in DOM
 
-  getDataForChart: function() { //TODO
-    tracker.productsClickedTimesForChart = [ ];
+  getNumTimesClickedandShown: function(obj) {
+    tracker.productsNamesArrayForChart.push(obj.name);
+    tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
+    tracker.productsShownTimesForChart.push(obj.numTimesShown);
+  }, //helper function to use with forEach to extract data for chart
+
+  sortTheArrayBasedOnClicks: function(obj) {
+    tracker.allProducts.sort(function(a, b) {
+      return a.numTimesClicked - b.numTimesClicked;
+    })
+  }, //function to sort object instances by number of times clicked (ascending)
+
+  reverseTheSortedArray: function(source, destination) {
+    destination.push(source.reverse());
+  }, //function to reverse order of sort (descending) to help extract top five
+
+  calculationsForChartData: function(clicked, shown) {
+    for (var i = 0; i < tracker.productsClickedTimesForChart.length; i++) {
+      tracker.percentageClicksToShown.push(((clicked[i] / shown[i]) * 100).toFixed(2));
+    }
+  },
+
+  getDataForChart: function() {
+    tracker.productsNamesArrayForChart = [ ];
     tracker.productsShownTimesForChart = [ ];
-    function getNumTimesClickedandShown(obj) {
-      tracker.productsClickedTimesForChart.push(obj.numTimesClicked);
-      tracker.productsShownTimesForChart.push(obj.numTimesShown);
-    }
-    function sortTheArrayBasedOnClicks(obj) {
-      tracker.allProducts.sort(function(a, b) {
-        return a.numTimesClicked - b.numTimesClicked;
-      })
-    }
-    this.allProducts.forEach(getNumTimesClickedandShown);
-    sortTheArrayBasedOnClicks();
-    function reverseTheSortedArray(source, destination) {
-      destination.push(source.reverse());
-    }
-    reverseTheSortedArray(this.allProducts, this.productInstancesSortedDescendingByTimesClicked);
-    function extractTheTopFive() {
-      tracker.productInstancesSortedDescendingByTimesClicked.splice(5);
-      tracker.topFiveProductsClicked.push(tracker.productInstancesSortedDescendingByTimesClicked);
-    }
-    extractTheTopFive();
+    tracker.productsClickedTimesForChart = [ ];
+    tracker.sortTheArrayBasedOnClicks();
+    tracker.reverseTheSortedArray(tracker.allProducts, tracker.productInstancesSortedDescendingByTimesClicked);
+    tracker.allProducts.forEach(tracker.getNumTimesClickedandShown);
+    tracker.calculationsForChartData(tracker.productsClickedTimesForChart, tracker.productsShownTimesForChart);
+    // function extractTheTopFive() {
+    //   tracker.productInstancesSortedDescendingByTimesClicked.splice(5);
+    //   tracker.topFiveProductsClicked.push(tracker.productInstancesSortedDescendingByTimesClicked);
+    // }
+    // extractTheTopFive();
   }, //create data arrays for chart.js
 
   makeTheChart: function() {
@@ -192,19 +207,19 @@ var tracker = {
     var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: this.productNames,
+        labels: this.productsNamesArrayForChart,
         datasets: [
           {
             label: 'Number of Times Product was Clicked',
-            backgroundColor: 'rgb(6, 21, 57)',
-            borderColor: 'rgb(120, 135, 171)',
+            backgroundColor: 'rgba( 51, 92, 124, 1)',
+            borderColor: 'rgba( 28, 70, 101, 1)',
             borderWidth: 1,
             data: this.productsClickedTimesForChart,
           },
           {
             label: 'Number of Times Product was Shown',
-            backgroundColor: 'rgb(85, 38, 0)',
-            borderColor: 'rgb(212, 154, 106)',
+            backgroundColor: 'rgba(193, 106, 71, 1)',
+            borderColor: 'rgba(157, 71, 36, 1)',
             borderWidth: 1,
             data: this.productsShownTimesForChart,
           }
@@ -213,8 +228,57 @@ var tracker = {
     })
   }, //create canvas element and render chart of results using chart.js
 
+  makeTheDoughnutChart: function() {
+    var canvasSectionEl = this.$('#doughnutChart');
+    var canvasDivEl = document.createElement('div');
+    canvasDivEl.setAttribute('id', 'clickResultsDoughnutChartDiv');
+    var canvasEl = document.createElement('canvas');
+    canvasEl.setAttribute('id', 'clickResultsDoughnutChart');
+    canvasDivEl.appendChild(canvasEl);
+    canvasSectionEl.appendChild(canvasDivEl);
+    var ctx = this.$('#clickResultsDoughnutChart');
+    var myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: this.productsNamesArrayForChart,
+        datasets: [
+          {
+            data: this.percentageClicksToShown,
+            backgroundColor: [
+              '#527896',
+              '#E9CD78',
+              '#E99878',
+              '#6060A3',
+              '#B2C7D8',
+              '#BBBBDE',
+              '#FFF3D0',
+              '#FFEBD0',
+              '#7C9CB4',
+              '#8A8AC0',
+              '#FFEAAA',
+              '#FFDBAA',
+              '#335C7C',
+              '#3E3E87',
+              '#C1A247',
+              '#C18D47',
+              '#1C4665',
+              '#26266E',
+              '#9D7F24',
+              '#9D6924'
+            ]
+          },
+        ]
+      }
+    })
+  }, //create canvas element and render chart of results using chart.js
+
   refreshThePage: function(event) {
     localStorage.setItem('allProducts', JSON.stringify(tracker.allProducts));
+    window.location.reload();
+  },
+
+  clearResults: function(event) {
+    localStorage.removeItem('allProducts');
     window.location.reload();
   },
 
@@ -228,7 +292,8 @@ function doAllTheMethods(obj) {
   obj.countEventListeners(); //calls function above
 }
 
-doAllTheMethods(tracker);
+tracker.checkForLocalStorage();
 
 tracker.$('#getResultsButton').addEventListener('click', tracker.resultsButtonClickEvent);
 tracker.$('#resetButton').addEventListener('click', tracker.refreshThePage);
+tracker.$('#clearStorageButton').addEventListener('click', tracker.clearResults);

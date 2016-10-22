@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>BusMall Product Testing</title>
+    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
     <link rel="stylesheet" href="index.css"/>
   </head>
   <body>
     <header>
       <h1 class="headerText">Welcome to the BusMall Product Test Page!</h1>
-      <h4 class="headerText">On the page below you will see <b>3 </b> products displayed.</br> Please click on your favorite each time the images refresh! </h4>
+      <h3 id="intro" class="headerText">Thank you for taking the time to complete our survey. </br> No wrong answers here, we promise!</h3>
+      <h4 id="instructions" class="headerText">On the page below you will see <b>3 </b> products displayed.</br> Please choose your favorite and click on it each time the images refresh! </h4>
     </header>
     <main>
       <section id="imageContainer" class="images">
@@ -25,9 +27,12 @@
       </section>
       <section id="chart">
       </section>
+      <section id="doughnutChart">
+      </section>
     </main>
     <footer>
       <h5 class="footerText">&copy; BusMall Industries &#183; 2016</h5>
+      <div id="clearStorageButton" class="button"></div>
     </footer>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js" integrity="sha256-matqc7CRptNWuATphiL4aVwn2YFBle16YV/AI5bYc70=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="index.js"></script>
