@@ -62,6 +62,14 @@ footer {
   text-align: center;
 }
 
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
 #dog-duck {
   margin-top: 50px;
 }

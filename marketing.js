@@ -49,8 +49,16 @@ var marketingTable = {
   },
 
   setSelector: function() {
-    
-  }
+    var tableEl = document.getElementById('marketingData');
+    var tableCells = tableEl.getElementsByTagName('td');
+    for(i = 0; i < tableCells.length; i++) {
+      if(tableCells[i].textContent === 'yes') {
+        tableCells[i].setAttribute('class', 'green');
+      } else if(tableCells[i].textContent === 'no') {
+        tableCells[i].setAttribute('class', 'red');
+      }
+    }
+  },
 
 }
 
@@ -58,3 +66,4 @@ marketingTable.extactProductData();
 marketingTable.yesOrNo();
 marketingTable.createRow('marketingData', 'thead', 'th', 'Item', 'Views', 'Clicks', '% Times Clicked When Shown', 'Recomended?');
 marketingTable.populateTable(marketingTable.productNames, marketingTable.productsShown, marketingTable.productsClicked, marketingTable.productsPercentage, marketingTable.recommendation);
+marketingTable.setSelector();
