@@ -141,6 +141,12 @@ td {
   list-style-type: none;
 }
 
+#donutChartTitle {
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+
 #clickResultsChartDiv {
   height: 400px;
   width: 800px;

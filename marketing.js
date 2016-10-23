@@ -60,6 +60,10 @@ var marketingTable = {
     }
   },
 
+  returnToVotePage: function() {
+    window.location.assign('file:///Users/JRM/cf/201/bus-mall/index.html');
+  }
+
 }
 
 marketingTable.extactProductData();
@@ -67,3 +71,5 @@ marketingTable.yesOrNo();
 marketingTable.createRow('marketingData', 'thead', 'th', 'Item', 'Views', 'Clicks', '% Times Clicked When Shown', 'Recomended?');
 marketingTable.populateTable(marketingTable.productNames, marketingTable.productsShown, marketingTable.productsClicked, marketingTable.productsPercentage, marketingTable.recommendation);
 marketingTable.setSelector();
+
+document.getElementById('returnButton').addEventListener('click', marketingTable.returnToVotePage);
