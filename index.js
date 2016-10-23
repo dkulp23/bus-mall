@@ -229,6 +229,10 @@ var tracker = {
 
   makeTheDoughnutChart: function() {
     var canvasSectionEl = this.$('#doughnutChart');
+    var donutChartTitleEl = document.createElement('h3');
+    donutChartTitleEl.setAttribute('id', 'donutChartTitle');
+    donutChartTitleEl.textContent = 'Below is a representation of times each product was clicked in relation to how many ties it was shown.';
+    canvasSectionEl.appendChild(donutChartTitleEl);
     var canvasDivEl = document.createElement('div');
     canvasDivEl.setAttribute('id', 'clickResultsDoughnutChartDiv');
     var canvasEl = document.createElement('canvas');
