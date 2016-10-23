@@ -287,7 +287,7 @@ var tracker = {
 
   goToMarketingPage: function(event) {
     localStorage.setItem('allProducts', JSON.stringify(tracker.allProducts));
-    window.location.assign('file:///Users/JRM/cf/201/bus-mall/marketing.html');
+    window.location.assign('https://dkulp23.github.io/bus-mall/marketing.html');
   }
 
 };

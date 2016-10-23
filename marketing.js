@@ -61,7 +61,7 @@ var marketingTable = {
   },
 
   returnToVotePage: function() {
-    window.location.assign('file:///Users/JRM/cf/201/bus-mall/index.html');
+    window.location.assign('https://dkulp23.github.io/bus-mall/');
   }
 
 }
