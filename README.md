@@ -26,7 +26,7 @@ You are also responsible for the look and feel of the app, so don't forget a cus
 # User Stories
 
 **USER**
-
+Neato site.
 
 **DEVELOPER**
 
